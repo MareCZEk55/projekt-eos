@@ -10,6 +10,9 @@ use App\Models\Member;
  */
 class MemberFactory extends Factory
 {
+
+    protected $model = Member::class;
+
     /**
      * Define the model's default state.
      *
