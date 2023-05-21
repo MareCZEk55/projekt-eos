@@ -1,0 +1,17 @@
+GET http://127.0.0.1:8000/api/members
+
+###
+
+DELETE http://127.0.0.1:8000/api/members/10
+
+###
+
+POST http://127.0.0.1:8000/api/members
+
+Content-Type: application/json
+{
+  "first_name": "John",
+  "last_name": "Doe",
+  "email": "johndoe@example.com",
+  "birthdate": "1990-01-01"
+}
