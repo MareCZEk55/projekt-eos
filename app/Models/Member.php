@@ -16,8 +16,8 @@ class Member extends Model
         'birthdate',
     ];
 
-    public function tags()
+    public function memberTags()
     {
-        return $this->hasMany(MemberTag::class);
+        return $this->belongsToMany(MemberTag::class, 'member_tag_member', 'member_id', 'member_tag_id');
     }
 }

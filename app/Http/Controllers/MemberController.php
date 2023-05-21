@@ -13,10 +13,29 @@ class MemberController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $members = Member::all();
+
+        if ($request->has("with_tags") || $request->input("tags") == "true") {
+            $members->load('memberTags');
+        }
+
         return MemberResource::collection($members);
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Request $request, $id)
+    {
+        $member = Member::findOrFail($id);
+
+        if ($request->has('with_tags') || $request->input("tags") == "true") {
+            $member->load('memberTags');
+        }
+
+        return new MemberResource($member);
     }
 
     /**
@@ -24,41 +43,47 @@ class MemberController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $this->validateMemberData($request);
+        try {
+            $validatedData = $this->validateMemberData($request);
 
-        $member = Member::create($validatedData);
+            $member = Member::create($validatedData);
 
-        // return new MemberResource($member);
-        return response()->json([
-            'success' => true,
-            'message' => 'Member created successfully.',
-            'data' => $member,
-        ], Response::HTTP_CREATED);
+            // return new MemberResource($member);
+            return response()->json([
+                'success' => true,
+                'message' => 'Member created successfully.',
+                'data' => $member,
+            ], Response::HTTP_CREATED);
+        } catch (ValidationException $ex) {
+            return response()->json([
+                'success' => false,
+                'message' => $ex->errors(),
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Member $member)
-    {
-        return new MemberResource($member);
-    }
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, Member $member)
     {
-        $validatedData = $this->validateMemberData($request);
+        try {
+            $validatedData = $this->validateMemberData($request);
 
-        $member->update($validatedData);
+            $member->update($validatedData);
 
-        // return new MemberResource($member);
-        return response()->json([
-            'success' => true,
-            'message' => 'Member updated successfully.',
-            'data' => $member,
-        ], Response::HTTP_OK);
+            return response()->json([
+                'success' => true,
+                'message' => 'Member updated successfully.',
+                'data' => $member,
+            ], Response::HTTP_OK);
+        } catch (ValidationException $ex) {
+            return response()->json([
+                'success' => false,
+                'message' => $ex->errors(),
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
     }
 
     /**
@@ -68,13 +93,11 @@ class MemberController extends Controller
     {
         $member->delete();
 
-        // return response()->noContent();
-
         // Return a success response with a message
         return response()->json([
-        'success' => true,
-        'message' => 'Member deleted successfully.',
-            ], Response::HTTP_OK);
+            'success' => true,
+            'message' => 'Member deleted successfully.',
+        ], Response::HTTP_OK);
     }
 
     protected function validateMemberData(Request $request)

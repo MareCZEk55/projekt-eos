@@ -14,44 +14,15 @@ class MemberSeeder extends Seeder
      */
     public function run(): void
     {
-        // Member::factory()
-        //     ->count(5)
-        //     ->create()
-        //     ->each(function ($member) {
-        //         $member->tags()->create(["tag" => "Prvni"]);
-        //         $member->tags()->create(["tag" => "Druhy"]);
-        //     });
+        $tags = MemberTag::all();
 
-        $tags = [
-            'Tag 1',
-            'Tag 2',
-            'Tag 3',
-            'Tag 4',
-            'Tag 5',
-        ];
+        foreach (range(1, 10) as $index) {
+            $member = Member::factory()->create();
+            $userTags = $tags->random(rand(0, 3))->pluck('id')->toArray();
 
-        Member::factory()
-            ->count(10)
-            ->create()
-            ->each(function ($member) use ($tags) {
-                $randomTags = collect($tags)->random(rand(0, 3))->toArray();
-                $member->tags()->createMany(
-                    array_map(function ($tag) {
-                        return ['tag' => $tag];
-                    }, $randomTags)
-                );
-            });
-
-        // // Get all tags
-        // $tags = MemberTag::all();
-
-        // // Create members and assign random tags
-        // Member::factory()
-        //     ->count(10)
-        //     ->create()
-        //     ->each(function ($member) use ($tags) {
-        //         $randomTags = $tags->random(rand(1, 3))->pluck('id');
-        //         $member->tags()->attach($randomTags);
-        //     });
+            foreach ($userTags as $tagId){
+                $member->memberTags()->attach($tagId);
+            }
+        }
     }
 }

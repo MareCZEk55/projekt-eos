@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Member;
+use App\Models\MemberTag;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Member>
@@ -20,6 +21,8 @@ class MemberFactory extends Factory
      */
     public function definition(): array
     {
+        $memberTags = MemberTag::factory()->count(rand(0, 3))->create();
+
         return [
             'first_name' => $this->faker->firstName,
             'last_name' => $this->faker->lastName,

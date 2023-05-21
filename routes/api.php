@@ -19,8 +19,9 @@ use App\Http\Controllers\MemberController;
 //     return $request->user();
 // });
 
-Route::get('members', [MemberController::class, 'index']);
+Route::get('members/', [MemberController::class, 'index']);
+Route::get('members/{member}/', [MemberController::class, 'show']);
+
 Route::post('members', [MemberController::class, 'store']);
-Route::get('members/{member}', [MemberController::class, 'show']);
 Route::put('members/{member}', [MemberController::class, 'update']);
 Route::delete('members/{member}', [MemberController::class, 'destroy']);

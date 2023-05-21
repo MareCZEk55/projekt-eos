@@ -14,24 +14,7 @@ class MemberTagSeeder extends Seeder
      */
     public function run(): void
     {
-        // // Create tags
-        // $tags = [
-        //     'Tag 1',
-        //     'Tag 2',
-        //     'Tag 3',
-        //     'Tag 4',
-        //     'Tag 5',
-        // ];
-
-        // foreach ($tags as $tag) {
-        //     MemberTag::create(['tag' => $tag]);
-        // }
-
-        // $members = Member::all();
-
-        // foreach ($members as $member) {
-        //     $member->tags()->create(['tag' => 'prvni']);
-        //     $member->tags()->create(['tag' => 'druhy']);
-        // }
+        // Create tags
+        MemberTag::factory()->count(5)->create();
     }
 }

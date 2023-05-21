@@ -1,8 +1,27 @@
 GET http://127.0.0.1:8000/api/members
+Content-Type: application/json
+
+{
+    "with_tags": ""
+}
 
 ###
 
-DELETE http://127.0.0.1:8000/api/members/3
+GET http://127.0.0.1:8000/api/members/2
+Content-Type: application/json
+
+{
+    "with_tags": ""
+}
+
+###
+
+
+GET http://127.0.0.1:8000/api/
+
+###
+
+DELETE http://127.0.0.1:8000/api/members/8
 
 ###
 
@@ -11,7 +30,6 @@ Content-Type: application/json
 
 {
   "first_name": "Sam",
-  "last_name": "Doe",
   "email": "samdoe@example.com",
   "birthdate": "1990-11-01"
 }
@@ -24,6 +42,5 @@ Content-Type: application/json
 {
   "first_name": "John",
   "last_name": "Doe",
-  "email": "johndoe@example.com",
   "birthdate": "1990-01-01"
 }

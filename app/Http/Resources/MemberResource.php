@@ -20,7 +20,9 @@ class MemberResource extends JsonResource
             'last_name' => $this->last_name,
             'email' => $this->email,
             'birthdate' => $this->birthdate,
-            'tags' => $this->tags->pluck('tag'),
+            'tags' => $this->whenLoaded('memberTags', function(){
+                return $this->memberTags->pluck('tag');
+            }),
         ];
     }
 }
